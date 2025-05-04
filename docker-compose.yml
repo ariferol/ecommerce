@@ -1,0 +1,15 @@
+version: '3.9'
+
+services:
+  #new service (ecommerce-api)
+  java_app:
+    container_name: ecommerce-api
+    image: ecommerce-api:1.0.0
+    build: .
+    ports:
+      - 8080:8080
+    volumes:
+      - /c/samplevolume:/test
+
+#docker compose up -d
+
