@@ -21,23 +21,22 @@ This is a modular, scalable e-commerce application developed using **Domain-Driv
 src/main/java/tr/org/ecommerce/
 ├── EcommerceApplication.java
 ├── adapter/
-│   ├── in/web/                 # Controller katmanı (driving adapter)
-│   └── out/db/                 # Veri erişim adaptörü (driven adapter)
+│   ├── in/web/                 # Controller layer (driving adapter)
+│   └── out/db/                 # Data access adapter (driven adapter)
 ├── application/
-│   ├── dto/                    # Komut ve response DTO'ları
-│   └── usecase/                # Use case arayüzleri ve implemantasyonları
+│   ├── dto/                    # Command and response DTOs
+│   └── usecase/                # Use case interfaces and implementations
 ├── common/
-│   ├── exception/
-│   └── utils/
+│   ├── exception/              # Custom exceptions
+│   └── utils/                  # Utility classes
 ├── domain/
-│   ├── model/                  # Entity ve value object'ler
-│   ├── port/                   # Port arayüzleri (repository port'ları)
-│   └── service/                # Domain servisler (varsa)
+│   ├── model/                  # Entities and value objects
+│   ├── port/                   # Port interfaces (repository ports)
+│   └── service/                # Domain services (if any)
 ├── infrastructure/
-│   ├── config/                 # Spring config sınıfları (Bean tanımları)
-│   ├── external/               # Harici sistem entegrasyonları (şu an boş)
-│   └── repository/             # Repository port implementasyonları
-
+│   ├── config/                 # Spring configuration classes (Bean definitions)
+│   ├── external/               # External system integrations (currently empty)
+│   └── repository/             # Repository port implementations
 
 ```
 
