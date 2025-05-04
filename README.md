@@ -88,14 +88,16 @@ The project uses **Swagger/OpenAPI** for interactive API documentation.
 - URL: `http://localhost:8080/swagger-ui/index.html`
 - Specification: `http://localhost:8080/v3/api-docs`
 
-🧪 Testing
+![image](https://github.com/user-attachments/assets/ba7ea2be-315b-49b6-a01f-833596cf637e)
+
+## 🧪 Testing
 bash
 Copy
 Edit
 ./mvnw test
 Unit tests focus on use case logic and domain rules. Infrastructure details are mocked.
 
-📦 Modules (Planned / In Progress)
+## 📦 Modules (Planned / In Progress)
  Product Management
 
  Category Management
@@ -106,14 +108,14 @@ Unit tests focus on use case logic and domain rules. Infrastructure details are 
 
  Payment Integration
 
-🗂️ To-Do / Future Work
+## 🗂️ To-Do / Future Work
 Add global exception handling
 
 Implement full CRUD for orders
 
 Add JWT-based authentication
 
-🧠 Principles Followed
+## 🧠 Principles Followed
 ✅ Separation of concerns
 
 ✅ Dependency inversion between core and infrastructure
@@ -127,4 +129,4 @@ Add JWT-based authentication
 🧑‍💻 Author
 Arif EROL
 
-GitHub: https://github.com/ariferol
+GitHub: [https://github.com/ariferol](https://github.com/ariferol/ecommerce)
