@@ -1,3 +1,5 @@
+![image](https://github.com/user-attachments/assets/480f33f6-1fb6-4207-85c0-7f9370fe8548)
+
 # 🛒 Ecommerce Project
 
 This is a modular, scalable e-commerce application developed using **Domain-Driven Design (DDD)**, **Hexagonal Architecture**, and **Clean Architecture** principles. The aim is to separate business logic from technical details and allow easy testing, extension, and maintenance.
