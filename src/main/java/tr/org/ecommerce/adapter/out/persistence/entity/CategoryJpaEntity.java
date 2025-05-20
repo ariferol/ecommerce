@@ -1,4 +1,4 @@
-package tr.org.ecommerce.adapter.out.persistence;
+package tr.org.ecommerce.adapter.out.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,8 +12,8 @@ import java.util.UUID;
 public class CategoryJpaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    private String id;
 
     private String name;
     private String description;
@@ -22,5 +22,5 @@ public class CategoryJpaEntity {
     private UUID parentCategoryId;
 
     @ManyToMany(mappedBy = "categories")
-    private List<ProductEntity> products;
+    private List<ProductJpaEntity> products;
 }

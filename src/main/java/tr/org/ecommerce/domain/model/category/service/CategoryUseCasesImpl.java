@@ -4,7 +4,7 @@ import org.springframework.stereotype.Component;
 import tr.org.ecommerce.domain.model.category.Category;
 import tr.org.ecommerce.domain.model.common.ID;
 import tr.org.ecommerce.domain.model.product.Product;
-import tr.org.ecommerce.domain.model.product.service.ProductPolicyService;
+import tr.org.ecommerce.domain.model.product.service.ProductPolicyUseCasesImpl;
 import tr.org.ecommerce.domain.port.out.CategoryRepositoryPort;
 import tr.org.ecommerce.domain.port.out.ProductRepositoryPort;
 import tr.org.ecommerce.domain.usecase.CategoryPolicyUseCases;
@@ -14,17 +14,20 @@ import tr.org.ecommerce.domain.usecase.ProductPolicyUseCases;
 import java.util.Optional;
 
 /**
- * Category domainine ait olan usecase lerin business logicleri ni .burada yazıyoruz
+ * Category domainine ait olan usecase lerin business logicleri ni .burada yazıyoruz(Domain services)
  */
 
 @Component
-public class CategoryService implements CategoryUseCases {
+public class CategoryUseCasesImpl implements CategoryUseCases {
     private final CategoryRepositoryPort categoryRepositoryPort;
     private final ProductRepositoryPort productRepositoryPort;
     private final ProductPolicyUseCases productPolicyUseCases;
     private final CategoryPolicyUseCases categoryPolicyUseCases;
 
-    public CategoryService(CategoryRepositoryPort categoryRepositoryPort, ProductRepositoryPort productRepositoryPort, ProductPolicyService productPolicyService, ProductPolicyUseCases productPolicyUseCases, CategoryUseCases categoryUseCases, CategoryPolicyUseCases categoryPolicyUseCases) {
+    public CategoryUseCasesImpl(CategoryRepositoryPort categoryRepositoryPort,
+                                ProductRepositoryPort productRepositoryPort,
+                                ProductPolicyUseCases productPolicyUseCases,
+                                CategoryPolicyUseCases categoryPolicyUseCases) {
         this.categoryRepositoryPort = categoryRepositoryPort;
         this.productRepositoryPort = productRepositoryPort;
         this.productPolicyUseCases = productPolicyUseCases;

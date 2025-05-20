@@ -1,59 +1,76 @@
 package tr.org.ecommerce.adapter.in.web;
-import org.springframework.http.HttpStatus;
+
+import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tr.org.ecommerce.application.dto.CreateProductCommandDto;
-import tr.org.ecommerce.application.dto.ProductDto;
-import tr.org.ecommerce.application.usecase.*;
+import tr.org.ecommerce.adapter.out.persistence.mapper.ProductMapper;
+import tr.org.ecommerce.application.service.spec.ProductAppService;
+import tr.org.ecommerce.domain.model.common.ID;
+import tr.org.ecommerce.domain.model.product.Product;
+import tr.org.ecommerce.domain.model.product.dto.CreateProductCommandDto;
+import tr.org.ecommerce.domain.model.product.dto.ProductDto;
+import tr.org.ecommerce.domain.port.in.rest.ProductRestAPI;
 
+import java.net.URI;
 import java.util.List;
-import java.util.UUID;
 
+
+/**
+ * Web Adapter Layer da ; Security validations(sanitize işlemleri,authentication, authorization,,...)
+ * http request validations işlemleri yapılır
+ */
 @RestController
 @RequestMapping("/api/v1/products")
-public class ProductController {
+public class ProductController implements ProductRestAPI {
 
-    private final CreateProductUseCase createProductUseCase;
-    private final ListProductsUseCase listProductsUseCase;
-    private final GetProductDetailsUseCase getProductDetailsUseCase;
-    private final UpdateProductUseCase updateProductUseCase;
-    private final DeleteProductUseCase deleteProductUseCase;
-
-    public ProductController(CreateProductUseCase createProductUseCase, ListProductsUseCase listProductsUseCase, GetProductDetailsUseCase getProductDetailsUseCase, UpdateProductUseCase updateProductUseCase, DeleteProductUseCase deleteProductUseCase) {
-        this.createProductUseCase = createProductUseCase;
-        this.listProductsUseCase = listProductsUseCase;
-        this.getProductDetailsUseCase = getProductDetailsUseCase;
-        this.updateProductUseCase = updateProductUseCase;
-        this.deleteProductUseCase = deleteProductUseCase;
-    }
+    @Autowired
+    private ProductAppService productAppService;
 
     @PostMapping
-    public ResponseEntity<UUID> createProduct(@RequestBody CreateProductCommandDto command) {
-        UUID productId = createProductUseCase.handle(command);
-        return ResponseEntity.status(HttpStatus.CREATED).body(productId);
+    @Override
+    public ResponseEntity<ProductDto> registerProduct(@RequestBody CreateProductCommandDto createProductCommandDto) {
+        Product product = productAppService.create(createProductCommandDto);
+        URI location = URI.create("/products/" + product.getId().id());
+        return ResponseEntity.created(location)
+                .body(ProductMapper.mapToProductDto(product));
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductDto>> getAllProducts() {
-        return ResponseEntity.ok(listProductsUseCase.handle());
+    @Override
+    public ResponseEntity<List<ProductDto>> getAllProducts(
+    ) {
+        /**
+         * SORU: Map leme burada mı olmalı? Yoksa Application layer da mı olmalı? Yada hiç bir business logic yoksa,
+         * persistence layer ın out portunda db den veriyi çekerken jpa entity listesini doğrudan dto ya mı çevirmeliyim?
+         * */
+        List<Product> products = productAppService.getAllProducts();
+        return ResponseEntity.ok(ProductMapper.mapToDtoList(products));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProductDetails(@PathVariable UUID id) {
-        ProductDto product = getProductDetailsUseCase.handle(id);
-        return ResponseEntity.ok(product);
+    @Override
+    public ResponseEntity<ProductDto> getProductDetails(@PathVariable("id") String productId) {
+        Product product = productAppService.getProductDetails(ID.of(productId));
+        return ResponseEntity.ok(ProductMapper.mapToProductDto(product));
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable UUID id, @RequestBody ProductDto dto) {
-        updateProductUseCase.handle(id, dto);
-        return ResponseEntity.noContent().build(); // 204 No Content
+    @Override
+    public ResponseEntity<ProductDto> updateProduct(@PathVariable("id") String productId, @Valid @RequestBody ProductDto dto) {
+        Product updated = productAppService.updateProduct(ID.of(productId), dto);
+        return ResponseEntity.ok(ProductMapper.mapToProductDto(updated));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable UUID id) {
-        deleteProductUseCase.handle(id);
-        return ResponseEntity.noContent().build();
+    @Override
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") String productId) {
+        boolean deleted = productAppService.deleteProduct(ID.of(productId));
+        if (deleted) {
+            return ResponseEntity.noContent().build();
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

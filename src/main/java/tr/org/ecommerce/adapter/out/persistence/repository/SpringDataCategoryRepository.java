@@ -1,10 +1,13 @@
-package tr.org.ecommerce.infrastructure.repository.jpa;
+package tr.org.ecommerce.adapter.out.persistence.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import tr.org.ecommerce.adapter.out.persistence.CategoryJpaEntity;
+import org.springframework.stereotype.Repository;
+import tr.org.ecommerce.adapter.out.persistence.entity.CategoryJpaEntity;
+import tr.org.ecommerce.domain.model.common.ID;
 
 import java.util.UUID;
 
-public interface SpringDataCategoryRepository extends JpaRepository<CategoryJpaEntity, UUID> {
+@Repository
+public interface SpringDataCategoryRepository extends JpaRepository<CategoryJpaEntity, ID> {
 }
 

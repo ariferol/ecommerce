@@ -1,15 +1,21 @@
-package tr.org.ecommerce.domain.port;
+package tr.org.ecommerce.domain.port.out;
 
-import tr.org.ecommerce.domain.model.Product;
+import tr.org.ecommerce.domain.model.common.ID;
+import tr.org.ecommerce.domain.model.product.Product;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 public interface ProductRepositoryPort {
-    Optional<Product> findById(UUID id);
+
+    Product save(Product product);
+
+    Optional<Product> findById(ID id);
+
     List<Product> findAll();
-    void save(Product product);
-    void deleteById(UUID id);
-    boolean existsById(UUID id);
+
+    void deleteById(ID id);
+
+    boolean existsById(ID id);
+
 }

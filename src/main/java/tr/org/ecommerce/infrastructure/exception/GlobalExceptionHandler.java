@@ -1,4 +1,4 @@
-package tr.org.ecommerce.adapter.in.web.exception;
+package tr.org.ecommerce.infrastructure.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

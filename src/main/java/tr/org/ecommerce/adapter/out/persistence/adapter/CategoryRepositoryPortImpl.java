@@ -1,53 +1,52 @@
-package tr.org.ecommerce.infrastructure.repository;
+package tr.org.ecommerce.adapter.out.persistence.adapter;
 
 import org.springframework.stereotype.Repository;
-import tr.org.ecommerce.domain.model.Category;
-import tr.org.ecommerce.domain.port.CategoryRepositoryPort;
+import tr.org.ecommerce.adapter.out.persistence.mapper.CategoryMapper;
+import tr.org.ecommerce.adapter.out.persistence.mapper.ProductMapper;
+import tr.org.ecommerce.domain.model.category.Category;
+import tr.org.ecommerce.domain.model.common.ID;
+import tr.org.ecommerce.domain.port.out.CategoryRepositoryPort;
 import tr.org.ecommerce.adapter.out.persistence.entity.CategoryJpaEntity;
 import tr.org.ecommerce.adapter.out.persistence.repository.SpringDataCategoryRepository;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
 public class CategoryRepositoryPortImpl implements CategoryRepositoryPort {
 
-    private final SpringDataCategoryRepository jpa;
+    private final SpringDataCategoryRepository springDataRepo;
 
-    public CategoryRepositoryPortImpl(SpringDataCategoryRepository jpa) {
-        this.jpa = jpa;
+    public CategoryRepositoryPortImpl(SpringDataCategoryRepository springDataRepo) {
+        this.springDataRepo = springDataRepo;
     }
 
     @Override
     public Category save(Category category) {
-        CategoryJpaEntity entity = new CategoryJpaEntity();
-        entity.setId(category.getId());
-        entity.setName(category.getName());
-        entity.setDescription(category.getDescription());
-        entity.setParentCategoryId(category.getParentCategoryId());
-        CategoryJpaEntity saved = jpa.save(entity);
-        return new Category(saved.getId(), saved.getName(), saved.getDescription(), saved.getParentCategoryId());
+        CategoryJpaEntity saved = springDataRepo.save(CategoryMapper.mapToJpaEntity(category));
+        CategoryMapper.mapToCategory(saved);
+        return CategoryMapper.mapToCategory(saved);
     }
 
     @Override
-    public Optional<Category> findById(UUID id) {
-        return jpa.findById(id).map(entity ->
-                new Category(entity.getId(), entity.getName(), entity.getDescription(), entity.getParentCategoryId())
-        );
+    public Optional<Category> findById(ID id) {
+        return springDataRepo.findById(id).map(CategoryMapper::mapToCategory);
     }
 
     @Override
     public List<Category> findAll() {
-        return jpa.findAll().stream().map(entity ->
-                new Category(entity.getId(), entity.getName(), entity.getDescription(), entity.getParentCategoryId())
-        ).collect(Collectors.toList());
+        return springDataRepo.findAll().stream().map(CategoryMapper::mapToCategory).collect(Collectors.toList());
     }
 
     @Override
-    public void deleteById(UUID id) {
-        jpa.deleteById(id);
+    public boolean existsById(ID categoryId) {
+        return springDataRepo.existsById(categoryId);
+    }
+
+    @Override
+    public void deleteById(ID id) {
+        springDataRepo.deleteById(id);
     }
 }
 

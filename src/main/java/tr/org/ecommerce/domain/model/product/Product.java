@@ -1,6 +1,8 @@
-package tr.org.ecommerce.domain.model;
+package tr.org.ecommerce.domain.model.product;
 
+import tr.org.ecommerce.domain.model.category.Category;
 import tr.org.ecommerce.domain.model.common.AbstractEntity;
+import tr.org.ecommerce.domain.model.common.ID;
 import tr.org.ecommerce.domain.model.product.dto.CreateProductCommandDto;
 
 import java.math.BigDecimal;
@@ -25,9 +27,12 @@ public class Product extends AbstractEntity {
     private LocalDateTime updatedAt;
     private List<Category> categories;
 
+    public Product(ID id) {
+        super(id);
+    }
+
     public static Product of(CreateProductCommandDto createProductCommandDto) {
-        Product product = new Product();
-        product.generateId();
+        Product product = new Product(ID.create());
         product.setName(createProductCommandDto.name());
         product.setDescription(createProductCommandDto.description());
         product.setBasePrice(createProductCommandDto.basePrice());
@@ -160,5 +165,35 @@ public class Product extends AbstractEntity {
 
     public void setCategories(List<Category> categories) {
         this.categories = categories;
+    }
+
+    public boolean isBlackList() {
+        return BlacklistedProduct.isBlacklisted(getName()) ;
+    }
+
+    private enum BlacklistedProduct {
+        DINAMIT("Dinamit"),
+        EROIN("Eroin"),
+        ESRAR("Esrar"),
+        KOKAIN("Kokain");
+
+        private final String productName;
+
+        BlacklistedProduct(String productName) {
+            this.productName = productName;
+        }
+
+        public String getProductName() {
+            return productName;
+        }
+
+        public static boolean isBlacklisted(String name) {
+            for (BlacklistedProduct item : BlacklistedProduct.values()) {
+                if (item.getProductName().equalsIgnoreCase(name)) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }

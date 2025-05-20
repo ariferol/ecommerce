@@ -1,4 +1,4 @@
-package tr.org.ecommerce.application.dto;
+package tr.org.ecommerce.domain.model.category.dto;
 
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;

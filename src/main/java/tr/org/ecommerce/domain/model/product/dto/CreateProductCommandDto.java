@@ -1,4 +1,4 @@
-package tr.org.ecommerce.application.dto;
+package tr.org.ecommerce.domain.model.product.dto;
 
 import java.math.BigDecimal;
 import java.util.List;

@@ -1,26 +1,23 @@
-package tr.org.ecommerce.domain.port.in;
+package tr.org.ecommerce.domain.port.in.rest;
 
-import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import tr.org.ecommerce.application.dto.CategoryDto;
-import tr.org.ecommerce.application.dto.CategoryProductDto;
-import tr.org.ecommerce.domain.model.Category;
+import tr.org.ecommerce.domain.model.category.dto.CategoryDto;
+import tr.org.ecommerce.domain.model.category.dto.CategoryProductDto;
+import tr.org.ecommerce.domain.model.category.Category;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface CategoryRestAPI {
     
-    ResponseEntity<String> createCategory(CategoryDto dto);
+    ResponseEntity<CategoryDto> registerCategory(CategoryDto dto);
     
-    ResponseEntity<List<Category>> listCategories();
+    ResponseEntity<List<CategoryDto>> listCategories();
 
-    ResponseEntity<Category> updateCategory(UUID id, CategoryDto dto);
+    ResponseEntity<CategoryDto> updateCategory(String id, CategoryDto dto);
 
-    ResponseEntity<Void> deleteCategory(UUID id);
+    ResponseEntity<Void> deleteCategory(String id);
 
-    ResponseEntity<Void> addProductToCategory(UUID categoryId, UUID productId);
+    ResponseEntity<Void> addProductToCategory(String categoryId, String productId);
 
-    ResponseEntity<Void> addProductToCategory(CategoryProductDto dto);
 }

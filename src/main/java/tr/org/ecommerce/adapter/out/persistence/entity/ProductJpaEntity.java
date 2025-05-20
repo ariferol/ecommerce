@@ -1,4 +1,4 @@
-package tr.org.ecommerce.adapter.out.persistence;
+package tr.org.ecommerce.adapter.out.persistence.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -12,11 +12,11 @@ import java.util.UUID;
 @Data
 @Entity
 @Table(name = "products")
-public class ProductEntity {
+public class ProductJpaEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+    private String id;
 
     private String name;
     private String description;

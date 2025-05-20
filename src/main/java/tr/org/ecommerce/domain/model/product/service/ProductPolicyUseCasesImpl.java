@@ -4,8 +4,8 @@ import org.springframework.stereotype.Component;
 import tr.org.ecommerce.domain.model.common.policy.BlacklistedProduct;
 import tr.org.ecommerce.domain.usecase.ProductPolicyUseCases;
 
-//@Component
-public class ProductPolicyService implements ProductPolicyUseCases {
+@Component
+public class ProductPolicyUseCasesImpl implements ProductPolicyUseCases {
 
     @Override
     public boolean isBlackList(String name) {
