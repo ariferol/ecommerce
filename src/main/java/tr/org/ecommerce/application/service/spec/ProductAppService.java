@@ -1,5 +1,7 @@
 package tr.org.ecommerce.application.service.spec;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import tr.org.ecommerce.domain.model.common.ID;
 import tr.org.ecommerce.domain.model.product.Product;
 import tr.org.ecommerce.domain.model.product.dto.CreateProductCommandDto;
@@ -19,4 +21,5 @@ public interface ProductAppService {
 
     boolean deleteProduct(ID productId);
 
+    Page<Product> getAllProductsWithPageable(Pageable pageable);
 }

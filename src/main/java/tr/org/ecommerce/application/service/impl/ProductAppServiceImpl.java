@@ -1,5 +1,7 @@
 package tr.org.ecommerce.application.service.impl;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import tr.org.ecommerce.application.service.spec.LogAppService;
 import tr.org.ecommerce.application.service.spec.ProductAppService;
@@ -80,4 +82,10 @@ public class ProductAppServiceImpl implements ProductAppService {
         productRepositoryPort.deleteById(productId);
         return true;
     }
+
+    @Override
+    public Page<Product> getAllProductsWithPageable(Pageable pageable) {
+        return productRepositoryPort.findAll(pageable);
+    }
+
 }

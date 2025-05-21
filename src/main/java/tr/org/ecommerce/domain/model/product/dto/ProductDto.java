@@ -11,7 +11,7 @@ import java.util.UUID;
 
 public record ProductDto(
         @NotNull(message = "ID cannot be null")
-        ID id,
+        String id,
 
         @NotBlank(message = "Name is required")
         @Size(max = 100, message = "Name must be at most 100 characters")

@@ -1,5 +1,6 @@
 package tr.org.ecommerce.adapter.out.persistence.mapper;
 
+import org.springframework.data.domain.Page;
 import tr.org.ecommerce.adapter.out.persistence.entity.ProductJpaEntity;
 import tr.org.ecommerce.domain.model.product.Product;
 import tr.org.ecommerce.domain.model.common.ID;
@@ -47,7 +48,7 @@ public class ProductMapper {
     }
 
     public static ProductDto mapToProductDto(Product product) {
-        return new ProductDto(product.getId(),
+        return new ProductDto(product.getId().id(),
                 product.getName(),
                 product.getDescription(),
                 product.getBasePrice(),
@@ -76,5 +77,13 @@ public class ProductMapper {
                     .toList();
         else
             return new ArrayList<>();
+    }
+
+    public static Page<Product> mapToProductPage(Page<ProductJpaEntity> entityPage) {
+        return entityPage.map(ProductMapper::mapToProduct);
+    }
+
+    public static Page<ProductDto> mapToProductDtoPage(Page<Product> productPage) {
+        return productPage.map(ProductMapper::mapToProductDto);
     }
 }

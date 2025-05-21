@@ -1,5 +1,7 @@
 package tr.org.ecommerce.adapter.out.persistence.adapter;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import tr.org.ecommerce.adapter.out.persistence.mapper.ProductMapper;
 import tr.org.ecommerce.domain.model.common.ID;
@@ -50,6 +52,13 @@ public class ProductRepositoryPortImpl implements ProductRepositoryPort {
     @Override
     public boolean existsById(ID id) {
         return springDataRepo.existsById(id);
+    }
+
+    @Override
+    public Page<Product> findAll(Pageable pageable) {
+        Page<ProductJpaEntity> result = springDataRepo.findAll(pageable);
+        Page<Product> pageableProduct = ProductMapper.mapToProductPage(result);
+        return pageableProduct;
     }
 
 }

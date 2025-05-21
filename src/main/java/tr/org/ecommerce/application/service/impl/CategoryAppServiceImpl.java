@@ -1,6 +1,7 @@
 package tr.org.ecommerce.application.service.impl;
 
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 import tr.org.ecommerce.application.service.spec.CategoryAppService;
 import tr.org.ecommerce.application.service.spec.LogAppService;
 import tr.org.ecommerce.domain.model.category.Category;
@@ -62,6 +63,7 @@ public class CategoryAppServiceImpl implements CategoryAppService {
         return true;
     }
 
+    @Transactional
     @Override
     public boolean addProductToCategory(ID categoryId, ID productId) {
         /*Ürünü , kategoriye ekler*/

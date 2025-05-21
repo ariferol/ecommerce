@@ -51,17 +51,19 @@ public class CategoryUseCasesImpl implements CategoryUseCases {
          * Product ve Category domain servis lerinden kategori ve ürünün yasaklı kategori ve ürün listesinde
          * olup olmadığını kontrol ediyoruz. Yasaklı listedey se kayda izin vermiyoruz;
          * */
-        if (productPolicyUseCases.isBlackList(product.getName())
-                || categoryPolicyUseCases.isBlackList(category.getName())) {
+        if (productPolicyUseCases.isBlackList(product.getName())) {
             return false;
         }
 
-        /**
-         * Tüm validation lar tamam ise db ye persist ediyoruz;
-         */
+        /*İlgili ürün yasaklı listesinde değilse kategori listesine ekliyoruz*/
         category.getProducts().add(product);
-        product.getCategories().add(category);
         categoryRepositoryPort.save(category);
+
+        /*İlgili kategori yasaklı listesinde değilse ürünün kategorilerine ekliyoruz*/
+        if (categoryPolicyUseCases.isBlackList(category.getName())) {
+            return false;
+        }
+        product.getCategories().add(category);
         productRepositoryPort.save(product);
 
         return true;

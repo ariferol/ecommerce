@@ -1,5 +1,7 @@
 package tr.org.ecommerce.domain.port.out;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import tr.org.ecommerce.domain.model.common.ID;
 import tr.org.ecommerce.domain.model.product.Product;
 
@@ -18,4 +20,5 @@ public interface ProductRepositoryPort {
 
     boolean existsById(ID id);
 
+    Page<Product> findAll(Pageable pageable);
 }
